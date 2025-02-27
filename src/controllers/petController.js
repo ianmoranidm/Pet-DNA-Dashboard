@@ -42,4 +42,28 @@ const getPetById = async (req, res) => {
   }
 };
 
-module.exports = { getPets, createPet, getPetById };
+const updatePet = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, age, breed, health_risks } = req.body;
+
+    const result = await db.query(
+      `UPDATE pets
+       SET name = $1, age = $2, breed = $3, health_risks = $4, updated_at = NOW()
+       WHERE id = $5
+       RETURNING *`,
+      [name, age, breed, health_risks, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+module.exports = { getPets, createPet, getPetById, updatePet };

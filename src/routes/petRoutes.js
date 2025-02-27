@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { getPets, createPet, getPetById } = require('../controllers/petController');
+const { getPets, createPet, getPetById, updatePet } = require('../controllers/petController');
 
 // Existing routes
 router.get('/pets', getPets);
 router.post('/pets', createPet);
-
-// New route for getting pet by ID
 router.get('/pets/:id', getPetById);
+
+// New route for updating a pet
+router.put('/pets/:id', updatePet);
 
 module.exports = router;
