@@ -26,4 +26,20 @@ const createPet = async (req, res) => {
   }
 };
 
-module.exports = { getPets, createPet };
+const getPetById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pet = await db.query('SELECT * FROM pets WHERE id = $1', [id]);
+
+    if (pet.rows.length === 0) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+
+    res.json(pet.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+module.exports = { getPets, createPet, getPetById };
