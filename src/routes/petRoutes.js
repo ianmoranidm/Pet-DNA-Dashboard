@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const petController = require('../controllers/petController');
+const { getPets, createPet } = require('../controllers/petController');
 
-// Define the GET route for '/api/pets'
-router.get('/', petController.getPets);
+// GET route to fetch all pets
+router.get('/pets', getPets);
+
+// POST route to add a new pet
+router.post('/pets', createPet);
 
 module.exports = router;

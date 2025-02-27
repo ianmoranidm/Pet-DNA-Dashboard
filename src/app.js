@@ -1,11 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express();
 const petRoutes = require('./routes/petRoutes');
 
-const app = express();
-app.use(bodyParser.json());
+// Middleware
+app.use(express.json());
 
-// Mount the pet routes under /api/pets
-app.use('/api/pets', petRoutes);
+// Routes
+app.use('/api', petRoutes); // This ensures /api/pets will work
 
 module.exports = app;
